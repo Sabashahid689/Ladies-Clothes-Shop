@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ladies Unstitched Collection | Online Shopping</title>
+  <style>
+    :root{
+      --primary: purple;
+      --dark:#222;
+      --light:pink;
+      --accent:#f2d7db;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',sans-serif}
+    body{background:var(--light);color:#333}
+    header{
+      background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.1);
+      position:sticky;top:0;z-index:100
+    }
+    .nav{
+      max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:15px
+    }
+    .logo{font-size:24px;font-weight:700;color:var(--primary)}
+    .nav ul{display:flex;list-style:none;gap:20px}
+    .nav a{text-decoration:none;color:#333;font-weight:500}
+    .hero{
+      background:linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.4)),url('https://images.unsplash.com/photo-1520975682031-a4c1d4f86b55?auto=format&fit=crop&w=1500&q=80');
+      background-size:cover;background-position:center;
+      color:#fff;text-align:center;padding:120px 20px
+    }
+    .hero h1{font-size:42px;margin-bottom:10px}
+    .hero p{font-size:18px;margin-bottom:25px}
+    .btn{background:var(--primary);color:#fff;padding:12px 25px;border:none;border-radius:30px;cursor:pointer}
+    .container{max-width:1200px;margin:auto;padding:40px 15px}
+    .filters{display:flex;gap:15px;flex-wrap:wrap;margin-bottom:25px}
+    .filters select,.filters input{padding:10px;border-radius:6px;border:1px solid #ccc}
+    .products{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:25px}
+    .card{
+      background:#fff;border-radius:12px;overflow:hidden;
+      box-shadow:0 4px 12px rgba(0,0,0,.08);transition:.3s
+    }
+    .card:hover{transform:translateY(-5px)}
+    .card img{width:100%;height:300px;object-fit:cover}
+    .card-body{padding:15px}
+    .card-body h3{font-size:18px;margin-bottom:6px}
+    .price{font-weight:700;color:var(--primary)}
+    .card-body button{margin-top:10px;width:100%}
+    footer{
+      background: black;color:#ccc;padding:40px 20px;margin-top:50px
+    }
+    footer .foot{max-width:1200px;margin:auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+    footer h4{color:#fff;margin-bottom:10px}
+    .cart{
+      position:fixed;right:20px;bottom:20px;background:var(--primary);color:#fff;
+      padding:15px 20px;border-radius:50px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.3)
+    }
+    .cart span{background:#fff;color:#000;border-radius:50%;padding:3px 8px;margin-left:6px}
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo">Ladies Clothes</div>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#products">Shop</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>Saba Malik Shop Ladies Unstitched Clothes Collection</h1>
+  <p>Luxury Lawn, Chiffon, Cotton & Embroidered Suits</p>
+  <button class="btn">Shop Now</button>
+</section>
+
+<section class="container" id="products">
+  <div class="filters">
+    <select id="category">
+      <option value="all">All Fabrics</option>
+      <option value="lawn">Lawn</option>
+      <option value="cotton">Cotton</option>
+      <option value="chiffon">Chiffon</option>
+    </select>
+    <input type="search" id="search" placeholder="Search design..." />
+  </div>
+
+  <div class="products" id="productList"></div>
+</section>
+
+<div class="cart">Cart <span id="cartCount">0</span></div>
+
+<footer>
+  <div class="foot">
+    <div>
+      <h4>About Us</h4>
+      <p>ElegantLawn offers premium ladies unstitched suits with modern designs and luxury fabrics.</p>
+    </div>
+    <div>
+      <h4>Customer Care</h4>
+      <p>Returns & Exchanges<br/>Size Guide<br/>FAQs</p>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <p>📞 +92 340 2513020 <br/>📧 sabamalik2367@gmail.com</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const products = [
+    {id:1,name:'Floral Lawn Suit',price:4500,category:'lawn',img:'floral.jpeg'},
+    {id:2,name:'Cotton Printed Suit',price:3800,category:'cotton',img:'cotton.jpeg'},
+    {id:3,name:'Luxury Chiffon Suit',price:7200,category:'chiffon',img:'chiffon.jpeg'},
+    {id:4,name:'Embroidered Lawn',price:5600,category:'lawn',img:'lawn.jpeg'},
+    {id:5,name:'Summer Cotton Collection',price:4100,category:'cotton',img:'summarcotton.jpg'}
+  ];
+
+  const productList = document.getElementById('productList');
+  const category = document.getElementById('category');
+  const search = document.getElementById('search');
+  const cartCount = document.getElementById('cartCount');
+  let cart = 0;
+
+  function displayProducts(list){
+    productList.innerHTML='';
+    list.forEach(p=>{
+      productList.innerHTML+=`
+        <div class="card">
+          <img src="${p.img}" />
+          <div class="card-body">
+            <h3>${p.name}</h3>
+            <div class="price">PKR ${p.price}</div>
+            <button class="btn" onclick="addToCart()">Add to Cart</button>
+          </div>
+        </div>`;
+    });
+  }
+
+  function addToCart(){
+    cart++;cartCount.textContent=cart;
+  }
+
+  function filter(){
+    let filtered = products.filter(p=>
+      (category.value==='all' || p.category===category.value) &&
+      p.name.toLowerCase().includes(search.value.toLowerCase())
+    );
+    displayProducts(filtered);
+  }
+
+  category.addEventListener('change',filter);
+  search.addEventListener('input',filter);
+
+  displayProducts(products);
+</script>
+
+</body>
+</html>
